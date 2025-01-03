@@ -1,0 +1,126 @@
+﻿@{ ViewBag.Title = "List of Rooms"; }
+
+@model List<HotelmeWeb.Data.Room>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Rooms</title>
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Poppins', sans-serif;
+            color: #343a40;
+        }
+
+        h1 {
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        /* Room Card */
+        .room-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .room-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
+            }
+
+            .room-card img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
+
+        .room-details {
+            padding: 20px;
+        }
+
+            .room-details h5 {
+                font-weight: 600;
+                font-size: 1.25rem;
+                margin-bottom: 10px;
+            }
+
+            .room-details p {
+                margin: 0;
+                font-size: 0.95rem;
+            }
+
+        /* Reserve Button */
+        .btn-reserve {
+            background-color: #5c67f2;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            margin-top: 15px;
+            padding: 10px 15px;
+        }
+
+            .btn-reserve:hover {
+                background-color: #4a56e2;
+            }
+
+        /* Not Available Button */
+        .btn-not-available {
+            background-color: #d3d3d3;
+            color: #6c757d;
+            border-radius: 8px;
+            margin-top: 15px;
+            padding: 10px 15px;
+            cursor: not-allowed;
+        }
+
+        @@media (max-width: 768px) {
+            .room-card img {
+                height: 180px;
+            }
+
+            .room-details h5 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Explore Our Rooms</h1>
+        <div class="row">
+            @foreach (var room in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="room-card">
+                        <img src="https://via.placeholder.com/410x230" alt="Room Image">
+                        <div class="room-details">
+                            <h5>@room.RoomNumber - @room.RoomType</h5>
+                            <p>Price: <strong>$@room.PricePerNight</strong> per night</p>
+                            <p>Status: <span class="text-muted">@room.Status</span></p>
+                            @if (room.Status == "Available")
+                            {
+                                <a href="@Url.Action("Reserve", "Home", new { id = room.RoomID })" class="btn btn-reserve w-100">Reserve Now</a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-not-available w-100" disabled>Not Available</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
+
